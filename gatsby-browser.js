@@ -1,0 +1,1 @@
+import "./src/components/styles/style.scss";

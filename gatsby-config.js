@@ -7,12 +7,24 @@
 /**
  * @type {import('gatsby').GatsbyConfig}
  */
+const path = require('path');
+require("dotenv").config({
+  path: `.env.${process.env.NODE_ENV}`,
+});
+
 module.exports = {
+  siteMetadata: {
+    title: `Gatsby WordPress Tutorial`,
+    description: `An example to learn how to source data from WordPress.`,
+    lang: `ja`,
+    siteUrl: `http://localhost:8000/`,
+    locale: `ja_JP`,
+  },
   plugins: [
     {
       resolve: `gatsby-source-wordpress`,
       options:{
-        url: `https://blog.uchiwa-design.net`,
+        url: process.env.WPGRAPHQL_URL || `https://blog.uchiwa-design.net/graphql`,
       },
     },
     {
@@ -27,8 +39,16 @@ module.exports = {
         sassRuleModulesTest: /\.module\.s(a|c)ss$/,
       },
     },
+    {
+      resolve: `gatsby-source-filesystem`,
+      options: {
+        name: `images`,
+        path: `${__dirname}/src/images/`,
+      },
+    },
     `gatsby-plugin-image`,
     `gatsby-plugin-sharp`,
     `gatsby-transformer-sharp`,
+    `gatsby-plugin-react-helmet`,
   ],
 }
